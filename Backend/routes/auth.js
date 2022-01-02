@@ -45,12 +45,56 @@ router.post('/createuser', [
                 }
             }
             const authtoken=jwt.sign(data,JWT_SECRET);
-            console.log(authtoken);
             res.send(authtoken);
+            console.log("auth done");
         }
         catch (error) {
             console.error(error.message);
-            res.status(500).json("Some error occured");
+            res.status(500).send("Internal server error");
+        }
+    }
+)
+
+// Login a user using : POST "/api/auth/login" Doesn't require auth No need to login
+router.post('/login', [
+    body('email', 'Enter a valid email').isEmail(),
+    body('password', 'Password cannot be blank').exists()],
+    async (req, res) => {
+        // If there are error, retuen  bad request and error
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        // Check whether user with email exist already
+        try {
+            // check user exist or not
+            let user = await User.findOne({ email: req.body.email })
+            if (!user) {
+                return res.status(400).json({ error: "Please try to login with correct credentials" })
+            }
+
+        // using destucturing method to pull out email, password from body
+            const {email,password}=req.body;
+
+            // password compare
+            const passcompare=await bcrypt.compare(password,user.password);
+            if(!passcompare){
+                return res.status(400).json({error: "Please try to login with correct credentials"})
+            }
+            // Authentication 
+            const data={
+                user:{
+                    id: user.id
+                }
+            }
+            const authtoken=jwt.sign(data,JWT_SECRET);
+            res.json(authtoken); // send payload(authtoken) to user
+            console.log("auth done");
+            
+        }
+        catch (error) {
+            console.error(error.message);
+            res.status(500).send("Internal server error");
         }
     }
 )
