@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs'); // password hash and add salt
 // Authentication 
-var jwt =require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
 var JWT_SECRET = 'Shera@code@krega';
 var fetchuser = require('../middlewares/fetchuser')
 
@@ -30,7 +30,7 @@ router.post('/createuser', [
             }
             // Password hashing and added salt
             const salt = await bcrypt.genSaltSync(10);
-            const secpass= await bcrypt.hash(req.body.password, salt);
+            const secpass = await bcrypt.hash(req.body.password, salt);
             // Create user
             user = await User.create({
                 name: req.body.name,
@@ -39,12 +39,12 @@ router.post('/createuser', [
             })
 
             // Authentication 
-            const data={
-                user:{
+            const data = {
+                user: {
                     id: user.id
                 }
             }
-            const authtoken=jwt.sign(data,JWT_SECRET);
+            const authtoken = jwt.sign(data, JWT_SECRET);
             res.send(authtoken);
             console.log("auth done");
         }
@@ -74,23 +74,23 @@ router.post('/login', [
             }
 
             // using destucturing method to pull out email, password from body
-            const {email,password}=req.body;
+            const { email, password } = req.body;
 
             // password compare
-            const passcompare=await bcrypt.compare(password,user.password);
-            if(!passcompare){
-                return res.status(400).json({error: "Please try to login with correct credentials"})
+            const passcompare = await bcrypt.compare(password, user.password);
+            if (!passcompare) {
+                return res.status(400).json({ error: "Please try to login with correct credentials" })
             }
             // Authentication 
-            const data={
-                user:{
+            const data = {
+                user: {
                     id: user.id
                 }
             }
-            const authtoken=jwt.sign(data,JWT_SECRET);
+            const authtoken = jwt.sign(data, JWT_SECRET);
             res.json(authtoken); // send payload(authtoken) to user
             console.log("auth done");
-            
+
         }
         catch (error) {
             console.error(error.message);
@@ -100,17 +100,17 @@ router.post('/login', [
 )
 
 //Route:3 Get loggedin user Details using : POST "/api/auth/getuser" require to login
-router.post('/getUser', fetchuser ,async (req, res) => {
-        try {
-            userId=req.user.id;
-            const user = await User.findById(userId).select("-password"); // get user details without password
-            res.send(user);
-        }
-        catch (error) {
-            console.error(error.message);
-            res.status(500).send("Internal server error");
-        }
+router.post('/getUser', fetchuser, async (req, res) => {
+    try {
+        userId = req.user.id;
+        const user = await User.findById(userId).select("-password"); // get user details without password
+        res.send(user);
     }
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal server error");
+    }
+}
 )
 
 
