@@ -86,9 +86,46 @@ const NoteState = (props) => {
         }
     ]
     const [notes, setNotes] = useState(initialnotes);
+
+    // Add a note
+    const addNote = (title, description, tag) => {
+        // ToDo Api Call
+        console.log("Adding a new note");
+        const note = {
+            "_id": "61d24bf649f34437182a98894",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": title,
+            "description": description,
+            "tag": tag,
+            "date": "2022-01-03T01:05:58.836Z",
+            "__v": 0
+        }
+        setNotes(notes.concat(note))
+    }
+
+    // Delete a Note
+    const deleteNote = (id) => {
+        // ToDo Api Call
+        console.log("Deleting note with id " + id);
+        const newNote = notes.filter((note) => { return note._id !== id })
+        setNotes(newNote)
+    }
+
+    // Edit a note
+    const editNote = (id, title, description, tag) => {
+        for (let index = 0; index < notes.length; index++) {
+            const element = notes[index];
+            if (element._id === id) {
+                element.title = title;
+                element.description = description;
+                element.tag = tag;
+            }
+        }
+    }
+
     return (
         // passing notes and setNotes to other component using provider
-        <NoteContext.Provider value={{ notes, setNotes }}>
+        <NoteContext.Provider value={{ notes, addNote, deleteNote }}>
             {props.children}
         </NoteContext.Provider>
     )
