@@ -29,6 +29,60 @@ const NoteState = (props) => {
             "tag": "B.tech",
             "date": "2022-01-03T01:05:58.836Z",
             "__v": 0
+        },
+        {
+            "_id": "61d22e65b163e79dc3e35eab",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": "New updated title",
+            "description": "Description is updated",
+            "tag": "personal",
+            "date": "2022-01-02T22:59:49.637Z",
+            "__v": 0
+        },
+        {
+            "_id": "61d24bdd49f3447182a98892",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": "Dass course",
+            "description": "Be serious its for future",
+            "tag": "B.tech",
+            "date": "2022-01-03T01:05:33.385Z",
+            "__v": 0
+        },
+        {
+            "_id": "61d24bf649f3447182a98894",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": "ML course",
+            "description": "Future possiblities",
+            "tag": "B.tech",
+            "date": "2022-01-03T01:05:58.836Z",
+            "__v": 0
+        },
+        {
+            "_id": "61d22e65b163e79dc3e35eab",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": "New updated title",
+            "description": "Description is updated",
+            "tag": "personal",
+            "date": "2022-01-02T22:59:49.637Z",
+            "__v": 0
+        },
+        {
+            "_id": "61d24bdd49f3447182a98892",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": "Dass course",
+            "description": "Be serious its for future",
+            "tag": "B.tech",
+            "date": "2022-01-03T01:05:33.385Z",
+            "__v": 0
+        },
+        {
+            "_id": "61d24bf649f3447182a98894",
+            "user": "61d1388f2163cc38688fcfb6",
+            "title": "ML course",
+            "description": "Future possiblities",
+            "tag": "B.tech",
+            "date": "2022-01-03T01:05:58.836Z",
+            "__v": 0
         }
     ]
     const [notes, setNotes] = useState(initialnotes);
