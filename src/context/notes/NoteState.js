@@ -2,94 +2,38 @@ import NoteContext from "./noteContext";
 import React, { useState } from "react";
 
 const NoteState = (props) => {
-    const initialnotes = [
-        {
-            "_id": "61d22e65b163e79dc3e35eab",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "New updated title",
-            "description": "Description is updated",
-            "tag": "personal",
-            "date": "2022-01-02T22:59:49.637Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d24bdd8749f3447182a98892",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "Dass course",
-            "description": "Be serious its for future",
-            "tag": "B.tech",
-            "date": "2022-01-03T01:05:33.385Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d24bf649f323447182a98894",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "ML course",
-            "description": "Future possiblities",
-            "tag": "B.tech",
-            "date": "2022-01-03T01:05:58.836Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d22e65b1635e79dc3e35eab",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "New updated title",
-            "description": "Description is updated",
-            "tag": "personal",
-            "date": "2022-01-02T22:59:49.637Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d24bdd49f344547182a98892",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "Dass course",
-            "description": "Be serious its for future",
-            "tag": "B.tech",
-            "date": "2022-01-03T01:05:33.385Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d24bf64349f3447182a98894",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "ML course",
-            "description": "Future possiblities",
-            "tag": "B.tech",
-            "date": "2022-01-03T01:05:58.836Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d22e65b13263e79dc3e35eab",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "New updated title",
-            "description": "Description is updated",
-            "tag": "personal",
-            "date": "2022-01-02T22:59:49.637Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d24bdd492f3447182a98892",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "Dass course",
-            "description": "Be serious its for future",
-            "tag": "B.tech",
-            "date": "2022-01-03T01:05:33.385Z",
-            "__v": 0
-        },
-        {
-            "_id": "61d24bf649f34437182a98894",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": "ML course",
-            "description": "Future possiblities",
-            "tag": "B.tech",
-            "date": "2022-01-03T01:05:58.836Z",
-            "__v": 0
-        }
-    ]
+    const host = "http://localhost:4000"
+    const initialnotes = []
     const [notes, setNotes] = useState(initialnotes);
 
+    // fetch all notes
+    const getNotes = async () => {
+        // ApI Call
+        const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+            method: 'GET',
+            headers: {
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFkMTM4OGYyMTYzY2MzODY4OGZjZmI2In0sImlhdCI6MTY0MTEwMTQ1NX0.ujfiU8yjRXE-8j4MbmGQSO-YFn4MwkBVSFchkjN2o9c',
+                'Content-Type': 'application/json'
+            }
+        });
+        const json = await response.json()
+        console.log(json)
+        setNotes(json);
+    }
+
     // Add a note
-    const addNote = (title, description, tag) => {
-        // ToDo Api Call
+    const addNote = async (title, description, tag) => {
+        // ApI Call
+        const response = await fetch(`${host}/api/notes/addnote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFkMTM4OGYyMTYzY2MzODY4OGZjZmI2In0sImlhdCI6MTY0MTEwMTQ1NX0.ujfiU8yjRXE-8j4MbmGQSO-YFn4MwkBVSFchkjN2o9c'
+            },
+            body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
+        });
+
+        // Logic to add note in client
         console.log("Adding a new note");
         const note = {
             "_id": "61d24bf649f34437182a98894",
@@ -104,15 +48,34 @@ const NoteState = (props) => {
     }
 
     // Delete a Note
-    const deleteNote = (id) => {
-        // ToDo Api Call
+    const deleteNote = async (id) => {
+        // Api Call
+        const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFkMTM4OGYyMTYzY2MzODY4OGZjZmI2In0sImlhdCI6MTY0MTEwMTQ1NX0.ujfiU8yjRXE-8j4MbmGQSO-YFn4MwkBVSFchkjN2o9c'
+            }
+        });
+
         console.log("Deleting note with id " + id);
         const newNote = notes.filter((note) => { return note._id !== id })
         setNotes(newNote)
     }
 
     // Edit a note
-    const editNote = (id, title, description, tag) => {
+    const editNote = async (id, title, description, tag) => {
+        // ApI Call
+        const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFkMTM4OGYyMTYzY2MzODY4OGZjZmI2In0sImlhdCI6MTY0MTEwMTQ1NX0.ujfiU8yjRXE-8j4MbmGQSO-YFn4MwkBVSFchkjN2o9c'
+            },
+            body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
+        });
+
+        // Logic to edit in client
         for (let index = 0; index < notes.length; index++) {
             const element = notes[index];
             if (element._id === id) {
@@ -125,10 +88,10 @@ const NoteState = (props) => {
 
     return (
         // passing notes and setNotes to other component using provider
-        <NoteContext.Provider value={{ notes, addNote, deleteNote }}>
+        <NoteContext.Provider value={{ notes, addNote, deleteNote, getNotes, editNote }}>
             {props.children}
         </NoteContext.Provider>
     )
 }
 
-export default NoteState
+export default NoteState;
