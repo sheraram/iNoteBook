@@ -32,20 +32,7 @@ const NoteState = (props) => {
             },
             body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
         });
-        const json = await response.json()
-        // console.log(json)
-
-        // Logic to add note in client
-        console.log("Adding a new note");
-        const note = {
-            "_id": "61d24bf649f34437182a98894",
-            "user": "61d1388f2163cc38688fcfb6",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "date": "2022-01-03T01:05:58.836Z",
-            "__v": 0
-        }
+        const note = await response.json()
         setNotes(notes.concat(note))
     }
 
@@ -60,9 +47,8 @@ const NoteState = (props) => {
             }
         });
         const json = await response.json()
-        // console.log(json)
 
-        console.log("Deleting note with id " + id);
+        // console.log("Deleting note with id " + id);
         const newNote = notes.filter((note) => { return note._id !== id })
         setNotes(newNote)
     }
