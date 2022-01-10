@@ -16,6 +16,7 @@ router.post('/createuser', [
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password must be atleast 5 characters').isLength({ min: 5 })],
     async (req, res) => {
+        let success = false
         // If there are error, retuen  bad request and error
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -45,7 +46,8 @@ router.post('/createuser', [
                 }
             }
             const authtoken = jwt.sign(data, JWT_SECRET);
-            res.send(authtoken);
+            success = true
+            res.send({success, authtoken});
             console.log("auth done");
         }
         catch (error) {
@@ -60,6 +62,7 @@ router.post('/login', [
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password cannot be blank').exists()],
     async (req, res) => {
+        let success = false
         // If there are error, retuen  bad request and error
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -88,7 +91,8 @@ router.post('/login', [
                 }
             }
             const authtoken = jwt.sign(data, JWT_SECRET);
-            res.json(authtoken); // send payload(authtoken) to user
+            success = true
+            res.json({success,authtoken}); // send payload(authtoken) to user
             console.log("auth done");
 
         }
