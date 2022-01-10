@@ -36,10 +36,10 @@ function App() {
                 <About />
               </Route>
               <Route exact path="/login">
-                <Login />
+                <Login showalert={showalert} />
               </Route>
               <Route exact path="/signup">
-                <Signup />
+                <Signup showalert={showalert} />
               </Route>
             </Switch>
           </div>
