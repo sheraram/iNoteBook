@@ -34,6 +34,7 @@ const Login = (props) => {
 
     return (
         <div>
+            <h2 className="my-3">Create an account to use inoteBook</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label" >Email address</label>
